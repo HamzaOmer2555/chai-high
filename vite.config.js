@@ -8,6 +8,13 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     middlewareMode: false,
-    historyApiFallback: true,
+    middleware: [
+      (req, res, next) => {
+        if (!req.url.match(/\.[a-z0-9]+$/i) && !req.url.startsWith('/api')) {
+          req.url = '/index.html'
+        }
+        next()
+      }
+    ]
   },
 })
