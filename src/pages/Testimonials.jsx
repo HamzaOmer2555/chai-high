@@ -5,37 +5,37 @@ import { MessageSquare, Quote } from 'lucide-react';
 const Testimonials = () => {
   const reviews = [
     {
-      name: "Sarah Jenkins",
+      name: "Shumaila Anjum",
       role: "Software Engineer",
       text: "I used to have a glass of wine every night to wind down. Now I have a cup of High Chai. Better sleep, no headache, same relaxation.",
       rating: 5
     },
     {
-      name: "Marcus Chen",
+      name: "Chaudhary Shujaat",
       role: "Creative Director",
       text: "The buzz is real. It is not like coffee jitters. It feels like a warm blanket for your brain. Highly recommend the Masala blend.",
       rating: 5
     },
     {
-      name: "Jessica Alverez",
+      name: "Sheikh Rasheed",
       role: "Yoga Instructor",
       text: "I was skeptical about the 'high' claim. But wow. It really puts you in a meditative state almost instantly.",
       rating: 4
     },
     {
-      name: "David Ross",
+      name: "Shabana Raahat",
       role: "Graduate Student",
       text: "Helps me write papers without the anxiety. It is legal?" ,
       rating: 5
     },
     {
-      name: "Emily White",
+      name: "Mustanser Hussain Taarar Saab",
       role: "Chef",
       text: "The flavor profile is actually legit chai. The effect is just a bonus.",
       rating: 5
     },
     {
-      name: "Alex Thorne",
+      name: "Mushtaq Chaudhary",
       role: "Musician",
       text: "Vibe in a cup. Seriously.",
       rating: 5
