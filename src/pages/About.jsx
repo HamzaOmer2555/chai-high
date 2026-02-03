@@ -19,10 +19,14 @@ const About = () => {
         <div className="grid md:grid-cols-2 gap-16 items-center mb-20">
           <div className="relative">
             <div className="aspect-[4/3] bg-stone-200 rounded-3xl overflow-hidden">
-             
+              <img 
+                src="/our-story.jpeg" 
+                alt="High Chai - Our Story" 
+                className="w-full h-full object-cover"
+              />
             </div>
-             <div className="absolute -bottom-6 -right-6 bg-orange-100 p-8 rounded-2xl max-w-xs">
-                <p className="font-serif text-lg italic text-orange-900">
+             <div className="absolute -bottom-6 -right-6 bg-amber-100 p-8 rounded-2xl max-w-xs shadow-lg border border-amber-200">
+                <p className="font-serif text-lg italic text-amber-900">
                   "It started in a kitchen lab in 2024, trying to find an alternative to alcohol."
                 </p>
               </div>
