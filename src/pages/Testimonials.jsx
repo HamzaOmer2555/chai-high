@@ -43,15 +43,15 @@ const Testimonials = () => {
   ];
 
   return (
-    <div className="bg-stone-50 min-h-screen py-20">
+    <div className="bg-amber-50/30 min-h-screen py-20">
       <div className="container mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl font-bold mb-4">The Vibe Check</h1>
-          <p className="text-xl text-stone-600">See what the community is sipping.</p>
+          <h1 className="text-5xl font-bold mb-4 text-amber-950">The Vibe Check</h1>
+          <p className="text-xl text-amber-900/70">See what the community is sipping.</p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -62,18 +62,18 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition-shadow"
+              className="bg-white p-8 rounded-2xl shadow-sm border border-amber-200 hover:shadow-md transition-shadow"
             >
-              <Quote className="text-orange-200 w-10 h-10 mb-4" />
-              <p className="text-stone-700 mb-6 italic leading-relaxed">"{review.text}"</p>
+              <Quote className="text-amber-300 w-10 h-10 mb-4" />
+              <p className="text-amber-950 mb-6 italic leading-relaxed font-semibold">"{review.text}"</p>
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-bold text-stone-900">{review.name}</h4>
-                  <p className="text-xs text-stone-500 uppercase tracking-wide">{review.role}</p>
+                  <h4 className="font-bold text-amber-950">{review.name}</h4>
+                  <p className="text-xs text-amber-700/70 uppercase tracking-wide">{review.role}</p>
                 </div>
                 <div className="flex gap-1">
                   {[...Array(review.rating)].map((_, i) => (
-                    <div key={i} className="w-2 h-2 rounded-full bg-orange-500" />
+                    <div key={i} className="w-2 h-2 rounded-full bg-amber-600" />
                   ))}
                 </div>
               </div>
@@ -82,7 +82,7 @@ const Testimonials = () => {
         </div>
 
         <div className="mt-20 text-center">
-          <button className="bg-stone-900 text-white px-8 py-4 rounded-full font-bold hover:bg-orange-600 transition-colors flex items-center gap-2 mx-auto">
+          <button className="bg-gradient-to-r from-amber-800 to-orange-700 text-white px-8 py-4 rounded-full font-bold hover:from-amber-900 hover:to-orange-800 transition-colors flex items-center gap-2 mx-auto">
             <MessageSquare size={20} />
             Leave a Review
           </button>

@@ -5,20 +5,39 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Chai-themed font families */
+body {
+  font-family: 'Merriweather', serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-handwritten {
+  font-family: 'Caveat', cursive;
+}
+
 /* Custom animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(251, 146, 60, 0.4); }
-  50% { box-shadow: 0 0 40px rgba(251, 146, 60, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px rgba(139, 69, 19, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(139, 69, 19, 0.6); }
 }
 
 @keyframes shimmer {
   0% { background-position: -1000px 0; }
   100% { background-position: 1000px 0; }
+}
+
+@keyframes steam {
+  0% { transform: translateY(0) scaleX(1); opacity: 0.6; }
+  50% { transform: translateY(-30px) scaleX(1.2); opacity: 0.3; }
+  100% { transform: translateY(-60px) scaleX(0.8); opacity: 0; }
 }
 
 .animate-float {
@@ -29,10 +48,60 @@ html {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
+.animate-steam {
+  animation: steam 3s ease-in-out infinite;
+}
+
 .shimmer {
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
   background-size: 1000px 100%;
   animation: shimmer 3s infinite;
+}
+
+/* Tea stain effects */
+.tea-stain {
+  position: relative;
+}
+
+.tea-stain::before {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 69, 19, 0.12) 0%, rgba(101, 67, 33, 0.08) 40%, transparent 70%);
+  filter: blur(8px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tea-stain-1::before {
+  width: 600px;
+  height: 600px;
+  top: -100px;
+  left: 20%;
+  transform: rotate(25deg);
+}
+
+.tea-stain-2::before {
+  width: 500px;
+  height: 500px;
+  bottom: 0;
+  right: -100px;
+  transform: rotate(-15deg);
+}
+
+.tea-stain-3::before {
+  width: 400px;
+  height: 400px;
+  top: 50%;
+  left: -100px;
+  transform: rotate(45deg);
+}
+
+/* Spilled tea effect */
+.tea-spill {
+  position: absolute;
+  opacity: 0.06;
+  filter: blur(1px);
 }
 
 /* Glassmorphism effect */
@@ -50,7 +119,7 @@ html {
 
 .card-hover:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 40px rgba(101, 67, 33, 0.2);
 }
 
 /* Smooth gradient animation */
@@ -62,4 +131,27 @@ html {
 @keyframes gradient-shift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
+}
+
+/* Chai cup steam effect */
+.steam-line {
+  position: absolute;
+  width: 2px;
+  height: 40px;
+  background: linear-gradient(to top, rgba(139, 69, 19, 0.3), transparent);
+  border-radius: 50%;
+  opacity: 0;
+  animation: steam 3s ease-in-out infinite;
+}
+
+.steam-line:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.steam-line:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.steam-line:nth-child(3) {
+  animation-delay: 1s;
 }
