@@ -67,6 +67,31 @@ const About = () => {
             </div>
           </div>
         </div>
+
+        <div id="contact-section" className="mt-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-3xl mx-auto"
+          >
+            <h2 className="text-3xl font-bold mb-8 text-center">Get In Touch</h2>
+            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-12 border border-amber-200 shadow-lg">
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-bold text-amber-900 mb-2">Visit Us</h3>
+                  <p className="text-lg text-stone-700">High Chai Studio</p>
+                  <p className="text-stone-600">F-11 Markaz, Islamabad, Pakistan</p>
+                  <p className="text-stone-600">Near Melody Market, Sector F-11</p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-amber-900 mb-2">Connect With Us</h3>
+                  <p className="text-stone-600">Email: hello@highchai.com</p>
+                  <p className="text-stone-600">Phone: +92 (300) 123-4567</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
