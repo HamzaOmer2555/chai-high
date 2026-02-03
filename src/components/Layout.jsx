@@ -111,7 +111,7 @@ const Layout = ({ children }) => {
             <h3 className="text-amber-100 font-bold mb-4">Company</h3>
             <ul className="space-y-2 text-sm">
               <li><Link to="/about" className="hover:text-amber-100">About Us</Link></li>
-              <li><a href="/about#contact-section" className="hover:text-amber-100">Contact</a></li>
+              <li><Link to="/about#contact-section" className="hover:text-amber-100">Contact</Link></li>
             </ul>
           </div>
           <div>
