@@ -2,55 +2,102 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 
-const BlogPost = ({ title, author, date, content, id }) => {
+const BlogPost = ({ title, author, date, content, id, images = [] }) => {
     const [isExpanded, setIsExpanded] = React.useState(false);
 
     // Split content into paragraphs
     const paragraphs = content.split('\n\n').filter(p => p.trim());
     const preview = paragraphs.slice(0, 3).join('\n\n');
 
+    // Function to render content with images
+    const renderContentWithImages = (parasToRender) => {
+        const elements = [];
+        parasToRender.forEach((paragraph, index) => {
+            // Add paragraph with enhanced styling
+            elements.push(
+                <p key={`p-${index}`} className="mb-6 text-amber-900/85 leading-[1.8] first-of-type:first-letter:text-5xl first-of-type:first-letter:font-bold first-of-type:first-letter:text-amber-800 first-of-type:first-letter:mr-1 first-of-type:first-letter:float-left first-of-type:first-letter:leading-none first-of-type:first-letter:font-['Playfair_Display']">
+                    {paragraph}
+                </p>
+            );
+
+            // Check if there's an image to insert after this paragraph
+            const imageToInsert = images.find(img => img.afterParagraph === index);
+            if (imageToInsert) {
+                elements.push(
+                    <motion.div
+                        key={`img-${index}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="my-10 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-amber-200/50 hover:ring-amber-300 transition-all duration-300"
+                    >
+                        <img
+                            src={imageToInsert.src}
+                            alt={imageToInsert.alt}
+                            className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
+                        />
+                    </motion.div>
+                );
+            }
+        });
+        return elements;
+    };
+
     return (
         <motion.article
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-3xl p-8 md:p-12 shadow-lg border border-amber-200 hover:shadow-xl transition-shadow"
+            className="bg-gradient-to-br from-white via-amber-50/20 to-orange-50/10 rounded-3xl p-8 md:p-12 shadow-xl border border-amber-200/50 hover:shadow-2xl hover:border-amber-300/70 transition-all duration-500"
         >
-            <div className="flex items-center gap-6 text-sm text-stone-500 mb-4">
-                <div className="flex items-center gap-2">
-                    <User size={16} className="text-amber-700" />
+            {/* Hero Image */}
+            {images.find(img => img.position === 'hero') && (
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-8 rounded-2xl overflow-hidden shadow-2xl -mx-8 md:-mx-12 -mt-8 md:-mt-12 ring-1 ring-amber-200"
+                >
+                    <img
+                        src={images.find(img => img.position === 'hero').src}
+                        alt={images.find(img => img.position === 'hero').alt}
+                        className="w-full h-64 md:h-96 object-cover hover:scale-105 transition-transform duration-700"
+                    />
+                </motion.div>
+            )}
+
+            <div className="flex items-center gap-6 text-sm text-amber-700/70 mb-6 font-medium">
+                <div className="flex items-center gap-2 bg-amber-50/50 px-3 py-1.5 rounded-full">
+                    <User size={14} className="text-amber-600" />
                     <span>{author}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                    <Calendar size={16} className="text-amber-700" />
+                <div className="flex items-center gap-2 bg-amber-50/50 px-3 py-1.5 rounded-full">
+                    <Calendar size={14} className="text-amber-600" />
                     <span>{date}</span>
                 </div>
             </div>
 
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-amber-950">{title}</h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-8 text-amber-950 leading-tight tracking-tight">{title}</h2>
 
-            <div className="prose prose-lg max-w-none text-stone-700 leading-relaxed">
+            <div className="prose prose-lg max-w-none text-amber-900/85 leading-relaxed font-['Merriweather'] text-[1.05rem]">
                 {isExpanded ? (
-                    paragraphs.map((paragraph, index) => (
-                        <p key={index} className="mb-4">
-                            {paragraph}
-                        </p>
-                    ))
+                    renderContentWithImages(paragraphs)
                 ) : (
                     <>
                         {preview.split('\n\n').map((paragraph, index) => (
-                            <p key={index} className="mb-4">
+                            <p key={index} className="mb-6 first-letter:text-5xl first-letter:font-bold first-letter:text-amber-800 first-letter:mr-1 first-letter:float-left first-letter:leading-none first-letter:font-['Playfair_Display']">
                                 {paragraph}
                             </p>
                         ))}
+                        <div className="mt-8 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
                     </>
                 )}
             </div>
 
             <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="mt-6 flex items-center gap-2 text-amber-700 font-semibold hover:text-amber-900 transition-colors group"
+                className="mt-8 flex items-center gap-2 bg-gradient-to-r from-amber-700 to-orange-600 text-white px-6 py-3 rounded-full font-semibold hover:from-amber-800 hover:to-orange-700 transition-all duration-300 shadow-md hover:shadow-lg group transform hover:scale-105"
             >
-                {isExpanded ? 'Show Less' : 'Read More'}
+                {isExpanded ? 'Show Less' : 'Read Full Story'}
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
         </motion.article>
@@ -58,12 +105,21 @@ const BlogPost = ({ title, author, date, content, id }) => {
 };
 
 const Blog = () => {
+    const [selectedCategory, setSelectedCategory] = React.useState('all');
+
     const blogPosts = [
         {
             id: 1,
             title: "High Chai Explained: The Science Behind the World's First Safe, Intoxicating Tea",
             author: "Chai High Team",
             date: "February 2026",
+            images: [
+                { position: 'hero', src: '/product.jpeg', alt: 'High Chai Product - The Science of Happiness' },
+                { afterParagraph: 8, src: '/images/image_5.png', alt: 'Traditional spices meet modern science' },
+                { afterParagraph: 15, src: '/images/image_8.png', alt: 'Neuro-Harmony technology' },
+                { afterParagraph: 22, src: '/images/image_7.png', alt: 'Safe, hydrated, and happy' },
+                { afterParagraph: 29, src: '/images/image_1.png', alt: 'The future of sipping' }
+            ],
             content: `Introduction: A New Era of Euphoria
 
 For centuries, humanity has searched for the perfect social lubricant. We've brewed, fermented, and distilled everything from grapes to grains in pursuit of that elusive feeling: relaxation, connection, and a touch of euphoria. But that feeling has always come with a price tag—the hangover, the brain fog, the loss of control, and the health risks.
@@ -141,6 +197,12 @@ Ready to experience the science of happiness?`
             title: "The Sip That Shifts the Script: Alcohol vs. High Chai",
             author: "Chai High Team",
             date: "February 2026",
+            images: [
+                { position: 'hero', src: '/images/image_2.jpeg', alt: 'The ultimate showdown: Alcohol vs High Chai' },
+                { afterParagraph: 8, src: '/images/image_9.png', alt: 'Wake up fresh - One leads to hangover, one to happiness' },
+                { afterParagraph: 14, src: '/images/image_5.png', alt: 'Real ingredients vs Empty calories' },
+                { afterParagraph: 20, src: '/images/image_4.png', alt: 'Socialize without the slur' }
+            ],
             content: `Why the modern socialite is trading the hangover for the high.
 
 For decades, the equation for "unwinding" has been simple: rough day + alcohol = relaxation. It's the standard social lubricant, the go-to for celebrations, and the default "stress relief" after a long week. But let's be honest—the equation is flawed. The "relaxation" often comes with a steep price tag: brain fog, empty calories, restless sleep, and the dreaded morning-after hangover.
@@ -194,10 +256,16 @@ So next time you reach for the bottle, ask yourself: Do I want the hangover, or 
 The choice is yours. Sip smarter.`
         },
         {
-            id: 2,
+            id: 3,
             title: "Sip Your Way to Serenity: A Lifestyle Guide to Stress Relief & Mental Health",
             author: "Chai High Team",
             date: "February 2026",
+            images: [
+                { position: 'hero', src: '/images/image_10.png', alt: 'Serenity in a cup' },
+                { afterParagraph: 4, src: '/images/image_3.png', alt: 'The ritual of preparation' },
+                { afterParagraph: 8, src: '/images/image_5.png', alt: 'Aromatherapy in every sip' },
+                { afterParagraph: 12, src: '/images/image_7.png', alt: 'Safe, legal relaxation' }
+            ],
             content: `Introduction
 
 In today's fast-paced world, stress has become an unwelcome companion for many. From the moment our alarms ring to the second our heads hit the pillow, we are bombarded with notifications, deadlines, and responsibilities. It's no wonder that "stress relief" and "mental health" are top-of-mind for so many of us. But what if the answer to finding your center wasn't a complex meditation retreat or an expensive spa day, but something as simple as a warm cup of chai?
@@ -239,6 +307,12 @@ Your mental health journey is unique, but you don't have to walk it alone. Incor
             title: "Nicotine vs. Natural Alternatives: Breaking Down the Addiction Science",
             author: "Chai High Team",
             date: "February 2026",
+            images: [
+                { position: 'hero', src: '/images/image_9.png', alt: 'Break free from the trap' },
+                { afterParagraph: 10, src: '/images/image_6.png', alt: 'Natural focus without the addiction' },
+                { afterParagraph: 18, src: '/images/image_8.png', alt: 'Rewiring neural pathways' },
+                { afterParagraph: 26, src: '/images/image_11.png', alt: 'Your nicotine-free future' }
+            ],
             content: `Discover the science behind nicotine addiction and explore natural alternatives that provide relaxation without dependence.
 
 Introduction: The Nicotine Trap Millions Can't Escape
@@ -306,6 +380,13 @@ You can have the relaxation, focus, ritual, and relief without addiction. The re
             title: "Ancient Chai Traditions Meet Modern Science: A 5,000-Year Evolution",
             author: "Chai High Team",
             date: "February 2026",
+            images: [
+                { position: 'hero', src: '/images/image_1.png', alt: 'Origin of Chai - 5,000 years of history' },
+                { afterParagraph: 6, src: '/images/image_5.png', alt: 'Ayurvedic roots' },
+                { afterParagraph: 12, src: '/images/image_3.png', alt: 'Traditional chai serving ceremony' },
+                { afterParagraph: 18, src: '/images/image_11.png', alt: 'Modern revival of ancient wisdom' },
+                { afterParagraph: 28, src: '/images/image_8.png', alt: 'The future is ancient' }
+            ],
             content: `Discover how chai history spans 5,000 years from ancient relaxation rituals to modern wellness science.
 
 Introduction: The Ancient Drink That's Conquering Modern Wellness
@@ -387,41 +468,60 @@ The future of relaxation is ancient. And it's absolutely legal.`
     ];
 
     return (
-        <div className="bg-white">
-            <div className="container mx-auto px-4 py-20">
+        <div className="bg-gradient-to-b from-amber-50/30 via-white to-orange-50/20 relative">
+            {/* Decorative background elements */}
+            <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-amber-200/20 to-orange-300/10 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-float" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-amber-200/20 to-orange-300/10 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-float" style={{ animationDelay: '2s' }} />
+
+            <div className="container mx-auto px-4 py-20 relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="max-w-3xl mx-auto text-center mb-16"
+                    className="max-w-4xl mx-auto text-center mb-16"
                 >
-                    <h1 className="text-5xl md:text-6xl font-bold mb-6 text-amber-950">The High Life Blog</h1>
-                    <p className="text-xl text-stone-600">
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.2 }}
+                        className="inline-block bg-gradient-to-r from-amber-200 to-orange-200 text-amber-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider mb-6 shadow-md"
+                    >
+                        ✨ Stories & Science
+                    </motion.span>
+                    <h1 className="text-5xl md:text-7xl font-bold mb-6 text-amber-950 leading-tight">
+                        The <span className="font-handwritten text-amber-700">High Life</span> Blog
+                    </h1>
+                    <p className="text-xl md:text-2xl text-amber-900/70 font-['Merriweather'] leading-relaxed max-w-2xl mx-auto">
                         Insights, stories, and the science behind your favorite sip.
                     </p>
                 </motion.div>
 
-                <div className="max-w-5xl mx-auto space-y-12">
+                <div className="max-w-5xl mx-auto space-y-16">
                     {blogPosts.map((post, index) => (
                         <motion.div
                             key={post.id}
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.2 }}
+                            transition={{ delay: index * 0.15, duration: 0.6 }}
                         >
                             <BlogPost {...post} />
                         </motion.div>
                     ))}
                 </div>
 
-                <div className="mt-16 text-center">
+                <div className="mt-20 text-center">
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.6 }}
-                        className="inline-block bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8 border border-amber-200"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8 }}
+                        className="inline-block bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-10 md:p-12 border-2 border-amber-200/70 shadow-2xl max-w-2xl backdrop-blur-sm"
                     >
-                        <p className="text-lg text-stone-700 mb-4">Want to experience the difference yourself?</p>
-                        <button className="bg-gradient-to-r from-amber-800 to-orange-700 text-white px-8 py-4 rounded-full text-base font-bold hover:from-amber-900 hover:to-orange-800 transition-colors">
+                        <h3 className="text-2xl md:text-3xl font-bold text-amber-950 mb-4 font-['Playfair_Display']">
+                            Ready for Your Own <span className="font-handwritten text-amber-700">High</span> Story?
+                        </h3>
+                        <p className="text-lg text-amber-900/70 mb-6 font-['Merriweather']">
+                            Experience the science, taste the tradition, feel the difference.
+                        </p>
+                        <button className="bg-gradient-to-r from-amber-800 to-orange-700 text-white px-10 py-4 rounded-full text-lg font-bold hover:from-amber-900 hover:to-orange-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                             Try High Chai Today
                         </button>
                     </motion.div>
@@ -432,3 +532,4 @@ The future of relaxation is ancient. And it's absolutely legal.`
 };
 
 export default Blog;
+
