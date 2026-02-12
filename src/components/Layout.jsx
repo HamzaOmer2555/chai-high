@@ -12,6 +12,7 @@ const Layout = ({ children }) => {
     { path: '/product', label: 'The Chai' },
     { path: '/about', label: 'Our Story' },
     { path: '/testimonials', label: 'Vibes' },
+    { path: '/blog', label: 'Blog' },
   ];
 
   return (
@@ -29,9 +30,8 @@ const Layout = ({ children }) => {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative text-base font-semibold transition-colors hover:text-amber-700 ${
-                    location.pathname === link.path ? 'text-amber-700' : 'text-amber-900/70'
-                  }`}
+                  className={`relative text-base font-semibold transition-colors hover:text-amber-700 ${location.pathname === link.path ? 'text-amber-700' : 'text-amber-900/70'
+                    }`}
                 >
                   {link.label}
                   {location.pathname === link.path && (
@@ -117,9 +117,9 @@ const Layout = ({ children }) => {
           <div>
             <h3 className="text-amber-100 font-bold mb-4">Newsletter</h3>
             <div className="flex gap-2">
-              <input 
-                type="email" 
-                placeholder="Enter email" 
+              <input
+                type="email"
+                placeholder="Enter email"
                 className="bg-amber-900/50 border-none rounded-lg px-3 py-2 text-sm w-full focus:ring-1 focus:ring-amber-600 text-amber-100 placeholder:text-amber-400/50"
               />
               <button className="bg-amber-700 text-white p-2 rounded-lg hover:bg-amber-600">
